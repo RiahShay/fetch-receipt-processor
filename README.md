@@ -94,10 +94,10 @@ This command will build the Docker image using the `Dockerfile` and tag it as `r
 Once the image is built, you can run the container with the following command:
 
 ```bash
-docker run -d --name receipt-processor-container -p 80:80 receipt-processor
+docker run -d --name receipt-processor-container -p 8080:8080 receipt-processor
 ```
 
-This will run the application in the background, exposing it on port `80`. Adjust the port as necessary depending on your application's configuration.
+This will run the application in the background, exposing it on port `8080`. Adjust the port as necessary depending on your application's configuration.
 
 
 ## Testing
