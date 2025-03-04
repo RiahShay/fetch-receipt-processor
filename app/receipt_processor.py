@@ -4,7 +4,7 @@ import math
 import logging
 from datetime import datetime
 
-from app.models import Receipt, Item
+from .models import Receipt, Item
 
 
 # These rules collectively define how many points should be awarded to a receipt.

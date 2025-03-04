@@ -6,8 +6,8 @@ import uvicorn
 from fastapi import FastAPI, HTTPException, status, Body
 from typing import Union, Any
 
-from app.receipt_processor import generate_id, calculate_points
-from app.db import store_receipt, get_receipt_points
+from .receipt_processor import generate_id, calculate_points
+from .db import store_receipt, get_receipt_points
 
 # Set up logging to record errors
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -55,8 +55,3 @@ def get_points(receipt_id: str):
         return {"points": receipt_pts[0]}
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No receipt found for that ID.")
-
-
-
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

@@ -12,6 +12,7 @@ This project implements a web service to process retail receipts and calculate r
 - [Contributing](#contributing)
 - [License](#license)
 - [Docker](#docker)
+- [Improvements](#improvements)
 
 ## Installation
 
@@ -47,13 +48,13 @@ For example:
 1. Run the main script:
 
    ```bash
-   python app/main.py
+   PYTHONPATH=./app uvicorn app.main:app --port 8080 --reload
    ```
 
 2. Access the web service at:
 
    ```
-   http://localhost:80
+   http://localhost:8080
    ```
 
 ## File Structure
@@ -113,6 +114,17 @@ pytest
 
 Tests are located in the `tests/` directory. Each module should have a corresponding test file in this directory.
 
-## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Improvements
+Improvements
+1. Idempotency for Repeated Requests
+I added payload hashing to handle repeated requests with the same receipt. If the same request comes in again, it’s ignored to prevent duplicate processing.
+
+2. User/Error Safeguard for Repeated Requests
+To avoid processing the same request multiple times (by the user or system), I added a safeguard. It checks for duplicate requests based on the payload hash and prevents redundancy.
+
+3. Local and Docker Dev Setup
+I made sure the app works both locally and in Docker. This means you can easily switch between environments without issues, with the app automatically handling file paths and imports for both setups.
+
+4. Logging for Debugging
+I set up logging to track key events, errors, and request data. This helps with debugging and understanding the app’s behavior in development and production.
