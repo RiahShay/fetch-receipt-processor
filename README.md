@@ -47,7 +47,7 @@ For example:
 1. Run the main script:
 
    ```bash
-   python main.py
+   python app/main.py
    ```
 
 2. Access the web service at:
