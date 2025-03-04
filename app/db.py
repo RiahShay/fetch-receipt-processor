@@ -54,9 +54,6 @@ def store_receipt(receipt_id: str, points: int, receipt):
         logging.exception(e) 
 
 def get_receipt_points(receipt_id: str):
-    # convert to receipt
-    # store to db
-    print("Came here")
     if conn is None:
         init_db()  # Ensure the database is initialized
     

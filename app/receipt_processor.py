@@ -40,7 +40,7 @@ def calculate_points(json_receipt: str):
 
 def count_rule_retailer_name(rec: Receipt):
     points = sum(c.isalnum() for c in rec.retailer)
-    print("Retailer name pts: ", points)
+    logging.info(f"Retailer name pts: {points}")
     return points
 
 def count_rule_receipt_total(rec: Receipt):
@@ -49,7 +49,7 @@ def count_rule_receipt_total(rec: Receipt):
         points+=50
     if rec.total % 0.25 == 0:
         points+=25
-    print("Receipt total pts: ", points)
+    logging.info(f"Receipt total pts: {points}")
     return points
 
 def count_rule_receipt_items(rec: Receipt):
@@ -59,7 +59,7 @@ def count_rule_receipt_items(rec: Receipt):
     for item in rec.items:
         if (len(item.shortDescription.strip())%3 == 0):
             points+=math.ceil(item.price*0.2)
-    print("Receipt items pts: ", points)
+    logging.info(f"Receipt items pts: {points}")
     return points
 
 
@@ -70,6 +70,6 @@ def count_rule_receipt_datetime(rec: Receipt):
         points+=6
     if (purchase_time > 1400 and purchase_time <1600):
         points+=10
-    print("Receipt date/time pts: ", points)
+    logging.info(f"Receipt date/time pts: {points}")
     return points
 

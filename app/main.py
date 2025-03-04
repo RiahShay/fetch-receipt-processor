@@ -42,7 +42,6 @@ def submit_receipt(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="The receipt is invalid.")
     except Exception as e:
         # Catch any unexpected errors
-        print(e)
         logging.error(f"An unexpected error occurred: {e}")
         logging.exception(e)  # Logs stack trace as well
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unexpected error occurred.")
