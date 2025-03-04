@@ -61,13 +61,13 @@ For example:
 ```plaintext
 fetch-receipt-processor/
 │
-├── src/                        # Source code files
+├── app/                        # Source code files
 │   ├── main.py                 # Entry point of the application
 │   ├── receipt_processor.py    # Helper functions
 │   └── ...                     # Other source code files
 │
 ├── tests/                # Unit tests
-│   ├── test_utils.py     # Test for helper functions
+│   ├── test_main.py     # Test for helper functions
 │   └── ...               # Other test files
 │
 ├── Dockerfile            # Dockerfile to build the project container
