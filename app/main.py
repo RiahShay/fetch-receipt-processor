@@ -2,11 +2,12 @@
 import logging
 import sys
 import json
-from receipt_processor import generate_id, calculate_points
-from db import store_receipt, get_receipt_points
+import uvicorn
 from fastapi import FastAPI, HTTPException, status, Body
 from typing import Union, Any
-import uvicorn
+
+from app.receipt_processor import generate_id, calculate_points
+from app.db import store_receipt, get_receipt_points
 
 # Set up logging to record errors
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

@@ -1,3 +1,4 @@
 # in memory db
 ./retail_receipt*
 .app/__pycache__/*
+./venv

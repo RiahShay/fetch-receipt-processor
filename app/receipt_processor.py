@@ -1,9 +1,11 @@
 import uuid
-from models import Receipt, Item
 import time
-from datetime import datetime
 import math
 import logging
+from datetime import datetime
+
+from app.models import Receipt, Item
+
 
 # These rules collectively define how many points should be awarded to a receipt.
 

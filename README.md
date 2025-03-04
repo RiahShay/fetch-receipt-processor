@@ -1,8 +1,8 @@
 
-# Project Name
+# Receipt Processor
 
 ## Overview
-Briefly describe the purpose of this project. Explain what problem it solves, and any relevant details about the functionality.
+This project implements a web service to process retail receipts and calculate reward points based on specific rules. It provides two main API endpoints: one to process a receipt and generate a unique ID, and another to retrieve the points associated with that receipt ID. The points are awarded based on rules like the retailer name length, purchase totals, number of items, and time of purchase. The solution is designed to use in-memory data storage, and no persistence is required.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -53,7 +53,7 @@ For example:
 2. Access the web service at:
 
    ```
-   http://localhost:8000
+   http://localhost:80
    ```
 
 ## File Structure
@@ -93,17 +93,17 @@ This command will build the Docker image using the `Dockerfile` and tag it as `r
 Once the image is built, you can run the container with the following command:
 
 ```bash
-docker run -d -p 8000:8000 --name receipt-processor-container receipt-processor
+docker run -d --name receipt-processor-container -p 80:80 receipt-processor
 ```
 
-This will run the application in the background, exposing it on port `8000`. Adjust the port as necessary depending on your application's configuration.
+This will run the application in the background, exposing it on port `80`. Adjust the port as necessary depending on your application's configuration.
 
 
 ## Testing
 
 ### Running Tests
 
-We use `pytest` for testing. To run the tests, make sure you have the dependencies installed and run:
+We use `pytest` for testing. To run the tests, make sure you have the dependencies installed and run the following from the root directory:
 
 ```bash
 pytest
@@ -112,15 +112,6 @@ pytest
 ### Writing Tests
 
 Tests are located in the `tests/` directory. Each module should have a corresponding test file in this directory.
-
-## Contributing
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-name`).
-3. Make your changes.
-4. Commit your changes (`git commit -am 'Add feature'`).
-5. Push to the branch (`git push origin feature-name`).
-6. Create a new Pull Request.
 
 ## License
 

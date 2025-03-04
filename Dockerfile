@@ -15,5 +15,3 @@ COPY ./app /code/app
 
 
 CMD ["fastapi", "run", "app/main.py", "--port", "80"]
-
-# CMD ["uvicorn", "app.src.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]

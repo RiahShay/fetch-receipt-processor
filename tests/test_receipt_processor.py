@@ -2,8 +2,9 @@ import unittest
 from unittest.mock import patch, MagicMock
 import uuid
 from datetime import datetime
-from receipt_processor import generate_id, from_json_to_receipt, calculate_points, count_rule_retailer_name, count_rule_receipt_total, count_rule_receipt_items, count_rule_receipt_datetime
-from models import Receipt, Item
+
+from app.receipt_processor import generate_id, from_json_to_receipt, calculate_points, count_rule_retailer_name, count_rule_receipt_total, count_rule_receipt_items, count_rule_receipt_datetime
+from app.models import Receipt, Item
 
 class TestReceiptProcessor(unittest.TestCase):
 
