@@ -16,13 +16,13 @@ This project implements a web service to process retail receipts and calculate r
 ## Installation
 
 ### Prerequisites
-Make sure you have Python 3.8 or later installed.
+Make sure you have Python 3.8 or later installed. If not, continue to [Docker](#docker) section for container run instructions
 
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-repo/project-name.git
-   cd project-name
+   git clone https://github.com/RiahShay/fetch-receipt-processor.git
+   cd fetch-receipt-processor
    ```
 
 2. Set up a virtual environment (optional but recommended):
@@ -59,7 +59,7 @@ For example:
 ## File Structure
 
 ```plaintext
-project-name/
+fetch-receipt-processor/
 │
 ├── src/                        # Source code files
 │   ├── main.py                 # Entry point of the application
