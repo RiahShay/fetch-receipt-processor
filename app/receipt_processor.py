@@ -24,7 +24,7 @@ def generate_id(receipt: str):
 
 def from_json_to_receipt(receipt: str) -> Receipt:
     try:
-        return Receipt.parse_raw(receipt)
+        return Receipt.model_validate_json(receipt)
     except Exception as e:
         logging.error(f"Validation error occurred during parsing: {e}")
         raise Exception(e)

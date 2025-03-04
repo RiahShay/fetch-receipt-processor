@@ -25,24 +25,32 @@ def submit_receipt(
     payload: Any = Body(None)
 ):
     try:
-        receipt_id = generate_id(json.dumps(payload))
-        receipt_points = calculate_points(json.dumps(payload))
-        db_status = store_receipt(str(receipt_id), receipt_points, payload)
-        if (db_status is not None):
+        payload_json = json.dumps(payload)
+        receipt_id = generate_id(payload_json)
+        receipt_points = calculate_points(payload_json)
+        check = store_receipt(str(receipt_id), receipt_points, payload)
+        if (check):
             return {"id": receipt_id}
         else:
-            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Error processing receipt.")
-    except Exception as e:
-        logging.error(f"An unexpected error occurred: {e}")
-        logging.exception(e) 
+            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+    except HTTPException as http_error:
+        logging.error(f"HTTP error occurred: {http_error.detail}")
+        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Error processing receipt.")
+    except (json.JSONDecodeError, ValueError) as e:
+        # Handle specific errors related to payload
+        logging.error(f"JSON or ValueError occurred: {e}")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="The receipt is invalid.")
-
+    except Exception as e:
+        # Catch any unexpected errors
+        print(e)
+        logging.error(f"An unexpected error occurred: {e}")
+        logging.exception(e)  # Logs stack trace as well
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An unexpected error occurred.")
 
 
 @app.get("/receipts/{receipt_id}/points")
 def get_points(receipt_id: str):
     receipt_pts = get_receipt_points(receipt_id)
-    print(receipt_pts)
     if (receipt_pts is not None):
         return {"points": receipt_pts[0]}
     else:

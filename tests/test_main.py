@@ -9,9 +9,9 @@ class TestFastAPIApp(unittest.TestCase):
     def setUp(self):
         self.client = TestClient(app)
     
-    @patch("receipt_processor.generate_id")
-    @patch("receipt_processor.calculate_points")
-    @patch("db.store_receipt")
+    @patch("app.main.generate_id")
+    @patch("app.main.calculate_points")
+    @patch("app.main.store_receipt")
     def test_submit_receipt_success(self, mock_store_receipt, mock_calculate_points, mock_generate_id):
         # Test data
         payload = {
@@ -41,7 +41,7 @@ class TestFastAPIApp(unittest.TestCase):
         mock_calculate_points.assert_called_once_with(json.dumps(payload))
         mock_store_receipt.assert_called_once_with(receipt_id, points, payload)
 
-    @patch("db.store_receipt")
+    @patch("app.main.store_receipt")
     def test_submit_receipt_failure_db_error(self, mock_store_receipt):
         # Test data
         payload = {
@@ -57,15 +57,15 @@ class TestFastAPIApp(unittest.TestCase):
         
         # Make a POST request to the /receipts/process endpoint
         response = self.client.post("/receipts/process", json=payload)
-        
+        print("Shariah", response)
         # Validate the response
         self.assertEqual(response.status_code, 503)
         self.assertEqual(response.json(), {"detail": "Error processing receipt."})
 
-    @patch("db.get_receipt_points")
+    @patch("app.main.get_receipt_points")
     def test_get_receipt_points_success(self, mock_get_receipt_points):
-        receipt_id = "valid-receipt-id"
-        points = 100
+        receipt_id = "a44f6c64-4d6a-3a9e-9c84-9193edc11dc8"
+        points = 22
         
         # Mock get_receipt_points to return the expected points
         mock_get_receipt_points.return_value = [points]
@@ -79,7 +79,7 @@ class TestFastAPIApp(unittest.TestCase):
         
         mock_get_receipt_points.assert_called_once_with(receipt_id)
 
-    @patch("db.get_receipt_points")
+    @patch("app.main.get_receipt_points")
     def test_get_receipt_points_not_found(self, mock_get_receipt_points):
         receipt_id = "non-existent-receipt-id"
         
@@ -88,7 +88,7 @@ class TestFastAPIApp(unittest.TestCase):
         
         # Make a GET request to the /receipts/{receipt_id}/points endpoint
         response = self.client.get(f"/receipts/{receipt_id}/points")
-        print("Shariah" ,)
+        print("Shariah23" , response)
         # Validate the response
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json(), {"detail": "No receipt found for that ID."})
