@@ -49,6 +49,9 @@ def store_receipt(receipt_id: str, points: int, receipt):
             db.execute(sql, args)
             conn.commit()
             return True
+    except sqlite3.IntegrityError as e:
+        logging.info(f"Unique constraint failed for existing receipt: {receipt_id}")
+        return True
     except Exception as e:
         logging.error(f"An unexpected error occurred: {e}")
         logging.exception(e) 

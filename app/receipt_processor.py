@@ -5,7 +5,7 @@ import logging
 from datetime import datetime
 
 from .models import Receipt, Item
-
+from .config import IS_LLM_GENERATED
 
 # These rules collectively define how many points should be awarded to a receipt.
 
@@ -25,11 +25,8 @@ def generate_id(receipt: str):
 
 
 def from_json_to_receipt(receipt: str) -> Receipt:
-    try:
-        return Receipt.model_validate_json(receipt)
-    except Exception as e:
-        logging.error(f"Validation error occurred during parsing: {e}")
-        raise Exception(e)
+    return Receipt.model_validate_json(receipt)
+
 
 
 
@@ -51,6 +48,8 @@ def count_rule_receipt_total(rec: Receipt):
         points+=50
     if rec.total % 0.25 == 0:
         points+=25
+    if IS_LLM_GENERATED and rec.total > 10.0:
+        points+=5
     logging.info(f"Receipt total pts: {points}")
     return points
 

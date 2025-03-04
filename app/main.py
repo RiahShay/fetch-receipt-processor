@@ -5,9 +5,11 @@ import json
 import uvicorn
 from fastapi import FastAPI, HTTPException, status, Body
 from typing import Union, Any
+from pydantic import ValidationError
 
 from .receipt_processor import generate_id, calculate_points
 from .db import store_receipt, get_receipt_points
+from .config import IS_LLM_GENERATED
 
 # Set up logging to record errors
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -37,9 +39,12 @@ def submit_receipt(
     except HTTPException as http_error:
         logging.error(f"HTTP error occurred: {http_error.detail}")
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Error processing receipt.")
-    except (json.JSONDecodeError, ValueError) as e:
+    except (json.JSONDecodeError, ValueError) or ValidationError as e:
         # Handle specific errors related to payload
-        logging.error(f"JSON or ValueError occurred: {e}")
+        if (IS_LLM_GENERATED):
+            logging.error(f"Please verify input. JSON or ValueError occurred: {e}")
+        else:
+            logging.error(f"JSON or ValueError occurred: {e}")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="The receipt is invalid.")
     except Exception as e:
         # Catch any unexpected errors

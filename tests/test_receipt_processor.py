@@ -61,6 +61,24 @@ class TestReceiptProcessor(unittest.TestCase):
         
         self.assertEqual(points, 25)  # 25 for multiple of 0.25
 
+
+    @patch("app.receipt_processor.IS_LLM_GENERATED", True)
+    def test_calculate_points_llm_generated(self):
+        # Test for total that is greater than 10 when llm generated flag is true
+        receipt = Receipt(retailer="Store C", purchaseDate=datetime(2022, 4, 1), purchaseTime="14:33", items=[Item(shortDescription="item1", price=5.99)], total=10.25)
+        points = count_rule_receipt_total(receipt)
+        
+        self.assertEqual(points, 30)  # 30 for multiple of 0.25
+
+
+    @patch("app.receipt_processor.IS_LLM_GENERATED", True)
+    def test_calculate_points_llm_generated(self):
+        # Test for total that is less than 10 when llm generated flag is true
+        receipt = Receipt(retailer="Store C", purchaseDate=datetime(2022, 4, 1), purchaseTime="14:33", items=[Item(shortDescription="item1", price=5.99)], total=4.25)
+        points = count_rule_receipt_total(receipt)
+        
+        self.assertEqual(points, 25)  # 25 for multiple of 0.25
+
     def test_calculate_points_items_count(self):
         # Test for item count (5 points for every two items)
         item1 = Item(shortDescription="item1", price=5.99)
